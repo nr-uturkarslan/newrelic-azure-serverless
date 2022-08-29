@@ -1,7 +1,8 @@
 ﻿using System;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace Storer.Commons.Logging;
+namespace ProxyService.Commons.Logging;
 
 public static class CustomLogger
 {
@@ -17,7 +18,7 @@ public static class CustomLogger
                 NullValueHandling = NullValueHandling.Ignore
             });
 
-        switch(customLog.LogLevel)
+        switch (customLog.LogLevel)
         {
             case LogLevel.Error:
                 logger.LogError(log);
@@ -29,4 +30,3 @@ public static class CustomLogger
         }
     }
 }
-
