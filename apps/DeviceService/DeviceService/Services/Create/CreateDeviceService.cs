@@ -86,7 +86,7 @@ public class CreateDeviceService : ICreateDeviceService
         CustomLogger.Run(_logger,
             new CustomLog
             {
-                ClassName = nameof(DeviceController),
+                ClassName = nameof(CreateDeviceService),
                 MethodName = nameof(Run),
                 LogLevel = LogLevel.Information,
                 Message = "Creating device...",
@@ -98,7 +98,7 @@ public class CreateDeviceService : ICreateDeviceService
         CustomLogger.Run(_logger,
             new CustomLog
             {
-                ClassName = nameof(DeviceController),
+                ClassName = nameof(CreateDeviceService),
                 MethodName = nameof(Run),
                 LogLevel = LogLevel.Information,
                 Message = "Device is created successfully.",
@@ -112,7 +112,7 @@ public class CreateDeviceService : ICreateDeviceService
         CustomLogger.Run(_logger,
             new CustomLog
             {
-                ClassName = nameof(DeviceController),
+                ClassName = nameof(CreateDeviceService),
                 MethodName = nameof(Run),
                 LogLevel = LogLevel.Error,
                 Message = "Device creation is failed.",
