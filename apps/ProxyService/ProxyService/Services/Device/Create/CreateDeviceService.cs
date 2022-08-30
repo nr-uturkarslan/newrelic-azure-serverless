@@ -53,6 +53,15 @@ public class CreateDeviceService : ICreateDeviceService
                 StatusCode = HttpStatusCode.BadRequest,
             };
         }
+        catch (Exception e)
+        {
+            LogUnexpectedErrorOccurred(logger, e);
+            return new ResponseTemplate<CreateDeviceResponseDto>
+            {
+                Message = "Unexcepted error occurred.",
+                StatusCode = HttpStatusCode.InternalServerError,
+            };
+        }
     }
 
     private async Task<CreateDeviceRequestDto> ParseRequestBody(
@@ -186,6 +195,23 @@ public class CreateDeviceService : ICreateDeviceService
                 MethodName = nameof(Run),
                 LogLevel = LogLevel.Information,
                 Message = "Request is forwarded to DeviceService successfully.",
+            });
+    }
+
+    private void LogUnexpectedErrorOccurred(
+        ILogger logger,
+        Exception e
+    )
+    {
+        CustomLogger.Run(logger,
+            new CustomLog
+            {
+                ClassName = nameof(CreateDeviceService),
+                MethodName = nameof(Run),
+                LogLevel = LogLevel.Information,
+                Message = "Unexpected error occurred.",
+                Exception = e.Message,
+                StackTrace = e.StackTrace,
             });
     }
 }
