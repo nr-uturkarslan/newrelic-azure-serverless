@@ -32,9 +32,9 @@ resource "azurerm_linux_function_app" "proxy" {
     ARCHIVE_SERVICE_URI = "https://${var.app_service_name_archive}.azurewebsites.net"
 
     # Open Telemetry
-    NEW_RELIC_APP_NAME          = "ProxyService"
-    NR_LICENSE_KEY              = var.new_relic_license_key
-    OTEL_EXPORTER_OTLP_ENDPOINT = var.new_relic_otlp_export_endpoint
+    NEW_RELIC_APP_NAME                    = "ProxyService"
+    NEW_RELIC_LICENSE_KEY                 = var.new_relic_license_key
+    NEW_RELIC_OTEL_EXPORTER_OTLP_ENDPOINT = var.new_relic_otlp_export_endpoint
   }
 
   site_config {}

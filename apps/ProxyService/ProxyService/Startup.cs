@@ -7,6 +7,7 @@ using ProxyService.Commons.Constants;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using System.Collections.Generic;
 
 [assembly: FunctionsStartup(typeof(ProxyService.Startup))]
 
@@ -23,39 +24,55 @@ public class Startup : FunctionsStartup
         builder.Services.AddHttpClient();
 
         // shared Resource to use for both OTel metrics AND tracing
-        var resource = ResourceBuilder.CreateDefault()
-            .AddService(EnvironmentVariables.NEW_RELIC_APP_NAME);
+        var resourceBuilder = ResourceBuilder
+            .CreateDefault()
+            .AddService(EnvironmentVariables.NEW_RELIC_APP_NAME)
+            //.AddAttributes(new Dictionary<string, object> {
+            //    { "environment", "production" }
+            //})
+            .AddTelemetrySdk();
 
         builder.Services.AddOpenTelemetryTracing(b =>
         {
+            // decorate our service name so we can find it when we search traces
+            b.SetResourceBuilder(resourceBuilder);
+
+            // receive traces from built-in sources
+            b.AddHttpClientInstrumentation();
+            b.AddAspNetCoreInstrumentation(options =>
+            {
+                options.RecordException = true;
+            });
+
             // use the OTLP exporter
-            b.AddOtlpExporter();
+            b.AddOtlpExporter(options =>
+            {
+                options.Endpoint = new Uri($"{EnvironmentVariables.NEW_RELIC_OTEL_EXPORTER_OTLP_ENDPOINT}");
+                options.Headers = $"api-key={EnvironmentVariables.NEW_RELIC_LICENSE_KEY}";
+            });
 
             // receive traces from our own custom sources
             b.AddSource(EnvironmentVariables.NEW_RELIC_APP_NAME);
+        });
 
+        builder.Services.AddOpenTelemetryTracing(b =>
+        {
             // decorate our service name so we can find it when we search traces
-            b.SetResourceBuilder(resource);
+            b.SetResourceBuilder(resourceBuilder);
 
             // receive traces from built-in sources
             b.AddHttpClientInstrumentation();
             b.AddAspNetCoreInstrumentation();
-        });
 
-        builder.Services.AddOpenTelemetryMetrics(b =>
-        {
-            // add prometheus exporter
-            b.AddOtlpExporter();
+            // use the OTLP exporter
+            b.AddOtlpExporter(options =>
+            {
+                options.Endpoint = new Uri($"{EnvironmentVariables.NEW_RELIC_OTEL_EXPORTER_OTLP_ENDPOINT}");
+                options.Headers = $"api-key={EnvironmentVariables.NEW_RELIC_LICENSE_KEY}";
+            });
 
-            // receive metrics from our own custom sources
-            b.AddMeter(EnvironmentVariables.NEW_RELIC_APP_NAME);
-
-            // decorate our service name so we can find it when we search metrics
-            b.SetResourceBuilder(resource);
-
-            // receive metrics from built-in sources
-            b.AddHttpClientInstrumentation();
-            b.AddAspNetCoreInstrumentation();
+            // receive traces from our own custom sources
+            b.AddSource(EnvironmentVariables.NEW_RELIC_APP_NAME);
         });
 
         builder.Services.AddSingleton<ICreateDeviceService, CreateDeviceService>();
@@ -73,6 +90,22 @@ public class Startup : FunctionsStartup
             Environment.Exit(1);
         }
         EnvironmentVariables.NEW_RELIC_APP_NAME = newRelicAppName;
+
+        var newRelicLicenseKey = Environment.GetEnvironmentVariable("NEW_RELIC_LICENSE_KEY");
+        if (string.IsNullOrEmpty(newRelicLicenseKey))
+        {
+            Console.WriteLine("[NEW_RELIC_LICENSE_KEY] is not provided");
+            Environment.Exit(1);
+        }
+        EnvironmentVariables.NEW_RELIC_LICENSE_KEY = newRelicLicenseKey;
+
+        var newRelicOtelExporterOtlpEndpoint = Environment.GetEnvironmentVariable("NEW_RELIC_OTEL_EXPORTER_OTLP_ENDPOINT");
+        if (string.IsNullOrEmpty(newRelicOtelExporterOtlpEndpoint))
+        {
+            Console.WriteLine("[NEW_RELIC_OTEL_EXPORTER_OTLP_ENDPOINT] is not provided");
+            Environment.Exit(1);
+        }
+        EnvironmentVariables.NEW_RELIC_OTEL_EXPORTER_OTLP_ENDPOINT = newRelicOtelExporterOtlpEndpoint;
 
         var deviceServiceUri = Environment.GetEnvironmentVariable("DEVICE_SERVICE_URI");
         if (string.IsNullOrEmpty(deviceServiceUri))
