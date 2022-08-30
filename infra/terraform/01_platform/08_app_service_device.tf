@@ -19,6 +19,7 @@ resource "azurerm_linux_web_app" "device" {
   service_plan_id = azurerm_service_plan.device.id
 
   app_settings = {
+
     # Cosmos DB
     COSMOS_DB_URI            = azurerm_cosmosdb_account.nr1.endpoint
     COSMOS_DB_NAME           = azurerm_cosmosdb_sql_database.device.name

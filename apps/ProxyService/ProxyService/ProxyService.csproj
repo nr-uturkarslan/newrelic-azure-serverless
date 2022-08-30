@@ -4,11 +4,13 @@
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.1" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+    <PackageReference Include="NewRelic.Agent" Version="10.0.0" />
+    <PackageReference Include="NewRelic.Agent.Api" Version="10.0.0" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Commons\" />
@@ -19,6 +21,15 @@
     <None Remove="Microsoft.Extensions.DependencyInjection" />
     <None Remove="System.Net.Http" />
     <None Remove="Microsoft.Extensions.Http" />
+    <None Remove="Services\" />
+    <None Remove="Services\Device\" />
+    <None Remove="Services\Device\Create\" />
+    <None Remove="Services\Device\Create\Dtos\" />
+    <None Remove="Dtos\" />
+    <None Remove="Commons\Exceptions\" />
+    <None Remove="Commons\Constants\" />
+    <None Remove="NewRelic.Agent" />
+    <None Remove="NewRelic.Agent.Api" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
@@ -32,5 +43,12 @@
   <ItemGroup>
     <Folder Include="Commons\" />
     <Folder Include="Commons\Logging\" />
+    <Folder Include="Services\" />
+    <Folder Include="Services\Device\" />
+    <Folder Include="Services\Device\Create\" />
+    <Folder Include="Services\Device\Create\Dtos\" />
+    <Folder Include="Dtos\" />
+    <Folder Include="Commons\Exceptions\" />
+    <Folder Include="Commons\Constants\" />
   </ItemGroup>
 </Project>

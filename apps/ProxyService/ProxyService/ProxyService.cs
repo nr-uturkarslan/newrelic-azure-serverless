@@ -8,52 +8,74 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Net.Http;
+using ProxyService.Services.Device.Create;
+using ProxyService.Commons.Logging;
+using System.Net;
 
 namespace ProxyService
 {
     public class ProxyService
     {
-        private readonly HttpClient _httpClient;
+        private const string CREATE_DEVICE_ENDPOINT = "CreateDevice";
+
+        private readonly ICreateDeviceService _createDeviceService;
 
         public ProxyService(
-            HttpClient httpClient
+            ICreateDeviceService createDeviceService
         )
         {
-            _httpClient = httpClient;
+            _createDeviceService = createDeviceService;
         }
 
-        [FunctionName("CreateDevice")]
+        [FunctionName(CREATE_DEVICE_ENDPOINT)]
         public async Task<IActionResult> CreateDevice(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "device/create")] HttpRequest req,
+            [HttpTrigger(
+                AuthorizationLevel.Anonymous,
+                "post",
+                Route = "device/create"
+            )] HttpRequest req,
             ILogger logger)
         {
-            logger.LogInformation("C# HTTP trigger function processed a request.");
+            LogEndpointIsTriggered(logger, CREATE_DEVICE_ENDPOINT);
 
-            var response = await _httpClient.GetAsync("https://www.google.com/");
-            var str = await response.Content.ReadAsStringAsync();
+            var response = await _createDeviceService.Run(logger, req);
 
-            return new OkObjectResult(str);
+            LogEndpointIsFinished(logger, CREATE_DEVICE_ENDPOINT);
+
+            var result = new ObjectResult(response);
+            result.StatusCode = (int)response.StatusCode;
+            return result;
         }
 
-        //[FunctionName("Archive")]
-        //public async Task<IActionResult> GetArchive(
-        //    [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "archive")] HttpRequest req,
-        //    ILogger logger)
-        //{
-        //    logger.LogInformation("C# HTTP trigger function processed a request.");
+        private void LogEndpointIsTriggered(
+            ILogger logger,
+            string endpointName
+        )
+        {
+            CustomLogger.Run(logger,
+                new CustomLog
+                {
+                    ClassName = nameof(ProxyService),
+                    MethodName = nameof(CreateDevice),
+                    LogLevel = LogLevel.Information,
+                    Message = $"{endpointName} endpoint is triggered...",
+                });
+        }
 
-        //    string name = req.Query["name"];
-
-        //    string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-        //    dynamic data = JsonConvert.DeserializeObject(requestBody);
-        //    name = name ?? data?.name;
-
-        //    string responseMessage = string.IsNullOrEmpty(name)
-        //        ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
-        //        : $"Hello, {name}. This HTTP triggered function executed successfully.";
-
-        //    return new OkObjectResult(responseMessage);
-        //}
+        private void LogEndpointIsFinished(
+            ILogger logger,
+            string endpointName
+        )
+        {
+            CustomLogger.Run(logger,
+                new CustomLog
+                {
+                    ClassName = nameof(ProxyService),
+                    MethodName = nameof(CreateDevice),
+                    LogLevel = LogLevel.Information,
+                    Message = $"{endpointName} endpoint is finished.",
+                });
+        }
     }
 }
 

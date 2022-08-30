@@ -19,9 +19,15 @@ resource "azurerm_linux_web_app" "archive" {
   service_plan_id = azurerm_service_plan.archive.id
 
   app_settings = {
-    # COSMOS_DB_URI            = azurerm_cosmosdb_account.nr1.endpoint
-    # COSMOS_DB_NAME           = azurerm_cosmosdb_sql_database.archive.name
-    # COSMOS_DB_CONTAINER_NAME = azurerm_cosmosdb_sql_container.archive.name
+
+    # New Relic
+    NEW_RELIC_APP_NAME              = "ArchiveService"
+    NEW_RELIC_LICENSE_KEY           = var.newRelicLicenseKey
+    CORECLR_ENABLE_PROFILING        = "1"
+    CORECLR_PROFILER                = "{36032161-FFC0-4B61-B559-F6C5D41BAE5A}"
+    CORECLR_PROFILER_PATH           = "/home/site/wwwroot/newrelic/libNewRelicProfiler.so"
+    CORECLR_NEWRELIC_HOME           = "/home/site/wwwroot/newrelic"
+    NEWRELIC_PROFILER_LOG_DIRECTORY = "/home/LogFiles/NewRelic"
   }
 
   site_config {

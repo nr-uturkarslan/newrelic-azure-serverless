@@ -6,7 +6,6 @@ namespace ProxyService.Commons.Logging;
 
 public class CustomLog
 {
-    // Code related properties
     [JsonProperty("className")]
     public string ClassName { get; set; }
 
