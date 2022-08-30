@@ -8,8 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 GetEnvironmentVariables();
 
 // Add services to the container.
-builder.Services.AddScoped<ICosmosDbHandler, CosmosDbHandler>();
-builder.Services.AddScoped<ICreateDeviceService, CreateDeviceService>();
+builder.Services.AddSingleton<ICosmosDbHandler, CosmosDbHandler>();
+builder.Services.AddSingleton<ICreateDeviceService, CreateDeviceService>();
 
 builder.Services.AddControllers();
 
