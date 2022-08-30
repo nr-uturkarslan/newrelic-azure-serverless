@@ -26,14 +26,10 @@ resource "azurerm_linux_function_app" "proxy" {
     APPINSIGHTS_INSTRUMENTATIONKEY = azurerm_application_insights.platform.instrumentation_key
 
     # Device Service
-    DEVICE_SERVICE_URI = azurerm_linux_web_app.device.outbound_ip_address_list[
-      length(azurerm_linux_web_app.device.outbound_ip_address_list) - 1
-    ]
+    DEVICE_SERVICE_URI = "https://${var.app_service_name_device}.azurewebsites.net"
 
     # Archive Service
-    ARCHIVE_SERVICE_URI = azurerm_linux_web_app.archive.outbound_ip_address_list[
-      length(azurerm_linux_web_app.archive.outbound_ip_address_list) - 1
-    ]
+    ARCHIVE_SERVICE_URI = "https://${var.app_service_name_archive}.azurewebsites.net"
 
     # Open Telemetry
     NEW_RELIC_APP_NAME          = "ProxyService"
