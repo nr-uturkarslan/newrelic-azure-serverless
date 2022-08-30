@@ -19,9 +19,19 @@ resource "azurerm_linux_web_app" "device" {
   service_plan_id = azurerm_service_plan.device.id
 
   app_settings = {
+    # Cosmos DB
     COSMOS_DB_URI            = azurerm_cosmosdb_account.nr1.endpoint
     COSMOS_DB_NAME           = azurerm_cosmosdb_sql_database.device.name
     COSMOS_DB_CONTAINER_NAME = azurerm_cosmosdb_sql_container.device.name
+
+    # New Relic
+    NEW_RELIC_APP_NAME              = "DeviceService"
+    NEW_RELIC_LICENSE_KEY           = var.newRelicLicenseKey
+    CORECLR_ENABLE_PROFILING        = "1"
+    CORECLR_PROFILER                = "{36032161-FFC0-4B61-B559-F6C5D41BAE5A}"
+    CORECLR_PROFILER_PATH           = "/home/site/wwwroot/newrelic/libNewRelicProfiler.so"
+    CORECLR_NEWRELIC_HOME           = "/home/site/wwwroot/newrelic"
+    NEWRELIC_PROFILER_LOG_DIRECTORY = "/home/LogFiles/NewRelic"
   }
 
   site_config {

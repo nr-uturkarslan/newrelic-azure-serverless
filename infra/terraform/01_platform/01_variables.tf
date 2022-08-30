@@ -46,6 +46,11 @@ variable "platform" {
   default = "platform"
 }
 
+# New Relic License Key
+variable "newRelicLicenseKey" {
+  type    = string
+}
+
 ## Resource Names
 
 # Resource Group

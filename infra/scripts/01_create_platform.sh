@@ -132,6 +132,7 @@ terraform -chdir=../terraform/01_platform plan \
   -var stage_short=$stageShort \
   -var stage_long=$stageLong \
   -var instance=$instance \
+  -var newRelicLicenseKey=$NEWRELIC_LICENSE_KEY \
   -var project_resource_group_name=$projectResourceGroupName \
   -var project_cosmos_db_account_name=$projectCosmosDbAccountName \
   -var project_cosmos_db_name_device=$projectCosmosDbNameDevice \
