@@ -1,4 +1,6 @@
-﻿using DeviceService.Commons.Constants;
+﻿using DeviceService.Azure.CosmosDb;
+using DeviceService.Commons.Constants;
+using DeviceService.Services.Create;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 GetEnvironmentVariables();
 
 // Add services to the container.
+builder.Services.AddScoped<ICosmosDbHandler, CosmosDbHandler>();
+builder.Services.AddScoped<ICreateDeviceService, CreateDeviceService>();
+
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

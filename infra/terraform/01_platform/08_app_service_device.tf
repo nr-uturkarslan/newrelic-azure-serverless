@@ -24,7 +24,11 @@ resource "azurerm_linux_web_app" "device" {
     COSMOS_DB_CONTAINER_NAME = azurerm_cosmosdb_sql_container.device.name
   }
 
-  site_config {}
+  site_config {
+    application_stack {
+      dotnet_version = "6.0"
+    }
+  }
 
   identity {
     type = "SystemAssigned"

@@ -63,6 +63,7 @@ resource "azurerm_cosmosdb_sql_role_definition" "contributor" {
 
   permissions {
     data_actions = [
+      "Microsoft.DocumentDB/databaseAccounts/readMetadata",
       "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/items/*"
     ]
   }

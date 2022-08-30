@@ -13,7 +13,7 @@ public interface ICosmosDbHandler
     Task CreateItem(Device device);
 }
 
-public class CosmosDbHandler
+public class CosmosDbHandler : ICosmosDbHandler
 {
     private readonly ILogger<CosmosDbHandler> _logger;
     private readonly Container _container;
