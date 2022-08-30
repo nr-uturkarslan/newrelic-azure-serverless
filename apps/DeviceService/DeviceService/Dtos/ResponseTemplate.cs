@@ -2,17 +2,16 @@
 using Newtonsoft.Json;
 using System.Net;
 
-namespace DeviceService.Dtos
+namespace DeviceService.Dtos;
+
+public class ResponseTemplate<T>
 {
-    public class ResponseTemplate<T>
-    {
-        [JsonProperty("message")]
-        public string? Message { get; set; }
+    [JsonProperty("message")]
+    public string? Message { get; set; }
 
-        [JsonProperty("statusCode")]
-        public HttpStatusCode StatusCode { get; set; }
+    [JsonProperty("statusCode")]
+    public HttpStatusCode StatusCode { get; set; }
 
-        [JsonProperty("data")]
-        public T? Data { get; set; }
-    }
+    [JsonProperty("data")]
+    public T? Data { get; set; }
 }

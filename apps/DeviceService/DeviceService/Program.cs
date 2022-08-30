@@ -59,5 +59,4 @@ void GetEnvironmentVariables()
         Environment.Exit(1);
     }
     EnvironmentVariables.COSMOS_DB_CONTAINER_NAME = cosmosDbContainerName;
-
 }
