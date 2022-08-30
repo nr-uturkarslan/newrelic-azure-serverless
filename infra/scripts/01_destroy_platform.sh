@@ -19,13 +19,20 @@ proxy="proxy"
 device="device"
 archive="archive"
 
+newRelicOtlpExportEndpoint="https://otlp.eu01.nr-data.net:4317"
+
 ### Set variables
+
+# Shared
+resourceGroupNameShared="rg${project}${locationShort}${shared}x000"
+storageAccountNameShared="st${project}${locationShort}${shared}x000"
 
 # Platform
 resourceGroupNamePlatform="rg${project}${locationShort}${platform}${stageShort}${instance}"
 cosmosDbAccountNamePlatform="cdb${project}${locationShort}${platform}${stageShort}${instance}"
 serviceBusNamespaceNamePlatform="sb${project}${locationShort}${platform}${stageShort}${instance}"
 storageAccountNamePlatform="st${project}${locationShort}${platform}${stageShort}${instance}"
+applicationInsightsNamePlatform="appins${project}${locationShort}${platform}${stageShort}${instance}"
 
 # Device
 resourceGroupNameDevice="rg${project}${locationShort}${device}${stageShort}${instance}"
@@ -48,17 +55,19 @@ functionAppNameProxy="func${project}${locationShort}${proxy}${stageShort}${insta
 ### Terraform destroy
 
 terraform -chdir=../terraform/01_platform destroy \
-    -var project=$project \
+  -var project=$project \
   -var location_long=$locationLong \
   -var location_short=$locationShort \
   -var stage_short=$stageShort \
   -var stage_long=$stageLong \
   -var instance=$instance \
   -var new_relic_license_key=$NEWRELIC_LICENSE_KEY \
+  -var new_relic_otlp_export_endpoint=$newRelicOtlpExportEndpoint \
   -var resource_group_name_platform=$resourceGroupNamePlatform \
   -var cosmos_db_account_name_platform=$cosmosDbAccountNamePlatform \
   -var service_bus_namespace_name_platform=$serviceBusNamespaceNamePlatform \
   -var storage_account_name_platform=$storageAccountNamePlatform \
+  -var application_insights_name_platform=$applicationInsightsNamePlatform \
   -var resource_group_name_device=$resourceGroupNameDevice \
   -var service_plan_name_device=$servicePlanNameDevice \
   -var app_service_name_device=$appServiceNameDevice \

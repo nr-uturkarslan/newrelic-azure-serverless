@@ -22,6 +22,9 @@ resource "azurerm_linux_function_app" "proxy" {
 
   app_settings = {
 
+    # Application Insights
+    APPINSIGHTS_INSTRUMENTATIONKEY = azurerm_application_insights.platform.instrumentation_key
+
     # Device Service
     DEVICE_SERVICE_URI = azurerm_linux_web_app.device.outbound_ip_address_list[
       length(azurerm_linux_web_app.device.outbound_ip_address_list) - 1
@@ -35,8 +38,9 @@ resource "azurerm_linux_function_app" "proxy" {
     # Open Telemetry
     NEW_RELIC_APP_NAME          = "ProxyService"
     NR_LICENSE_KEY              = var.new_relic_license_key
-    OTEL_EXPORTER_OTLP_ENDPOINT = "https://otlp.eu01.nr-data.net:4317"
+    OTEL_EXPORTER_OTLP_ENDPOINT = var.new_relic_otlp_export_endpoint
   }
+
   site_config {}
 
   identity {

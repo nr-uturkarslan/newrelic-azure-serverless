@@ -48,7 +48,12 @@ variable "platform" {
 
 # New Relic License Key
 variable "new_relic_license_key" {
-  type    = string
+  type = string
+}
+
+# New Relic OTLP Export Endpoint
+variable "new_relic_otlp_export_endpoint" {
+  type = string
 }
 
 ################
@@ -57,22 +62,27 @@ variable "new_relic_license_key" {
 
 # Resource Group
 variable "resource_group_name_platform" {
-  type    = string
+  type = string
 }
 
 # Cosmos DB Account
 variable "cosmos_db_account_name_platform" {
-  type    = string
+  type = string
 }
 
 # Service Bus
 variable "service_bus_namespace_name_platform" {
-  type    = string
+  type = string
 }
 
 # Storage Account
 variable "storage_account_name_platform" {
-  type    = string
+  type = string
+}
+
+# Application Insights
+variable "application_insights_name_platform" {
+  type = string
 }
 #########
 
@@ -82,22 +92,22 @@ variable "storage_account_name_platform" {
 
 # Resource Group
 variable "resource_group_name_device" {
-  type    = string
+  type = string
 }
 
 # Service Plan
 variable "service_plan_name_device" {
-  type    = string
+  type = string
 }
 
 # App Service
 variable "app_service_name_device" {
-  type    = string
+  type = string
 }
 
 # Cosmos DB
 variable "cosmos_db_name_device" {
-  type    = string
+  type = string
 }
 #########
 
@@ -107,27 +117,27 @@ variable "cosmos_db_name_device" {
 
 # Resource Group
 variable "resource_group_name_archive" {
-  type    = string
+  type = string
 }
 
 # Service Plan
 variable "service_plan_name_archive" {
-  type    = string
+  type = string
 }
 
 # App Service
 variable "app_service_name_archive" {
-  type    = string
+  type = string
 }
 
 # Blob Container
 variable "blob_container_name_archive" {
-  type    = string
+  type = string
 }
 
 # Service Bus Queue
 variable "service_bus_queue_name_archive" {
-  type    = string
+  type = string
 }
 #########
 
@@ -137,16 +147,16 @@ variable "service_bus_queue_name_archive" {
 
 # Resource Group
 variable "resource_group_name_proxy" {
-  type    = string
+  type = string
 }
 
 # Service Plan
 variable "service_plan_name_proxy" {
-  type    = string
+  type = string
 }
 
 # Function App
 variable "function_app_name_proxy" {
-  type    = string
+  type = string
 }
 #########
