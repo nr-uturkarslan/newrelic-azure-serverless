@@ -1,6 +1,8 @@
 ### Variables ###
 
-## General
+###############
+### General ###
+###############
 
 # project
 variable "project" {
@@ -37,8 +39,11 @@ variable "instance" {
   type    = string
   default = "001"
 }
+#########
 
-## Specific
+################
+### Specific ###
+################
 
 # platform
 variable "platform" {
@@ -55,6 +60,7 @@ variable "new_relic_license_key" {
 variable "new_relic_otlp_export_endpoint" {
   type = string
 }
+#########
 
 ################
 ### Platform ###
