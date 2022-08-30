@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Storer.Commons.Constants;
+namespace ArchiveService.Commons.Constants;
 
 public static class EnvironmentVariables
 {

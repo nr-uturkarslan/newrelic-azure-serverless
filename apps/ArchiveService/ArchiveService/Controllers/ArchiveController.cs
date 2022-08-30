@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Storer.Commons.Logging;
-using Storer.Services.Create;
-using Storer.Services.Create.Models;
+using ArchiveService.Commons.Logging;
+using ArchiveService.Services.Create;
+using ArchiveService.Services.Create.Models;
 
-namespace Storer.Controllers;
+namespace ArchiveService.Controllers;
 
 [ApiController]
 [Route("[controller]")]

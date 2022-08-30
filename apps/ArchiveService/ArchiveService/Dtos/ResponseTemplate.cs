@@ -1,9 +1,9 @@
 ﻿using System.Net;
 using Newtonsoft.Json;
 
-namespace Storer.Dtos;
+namespace ArchiveService.Dtos;
 
-public class ResponseDto<T>
+public class ResponseTemplate<T>
 {
     [JsonProperty("message")]
     public string? Message { get; set; }

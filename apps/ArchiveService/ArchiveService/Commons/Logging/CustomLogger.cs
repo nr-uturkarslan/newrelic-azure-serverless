@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Storer.Commons.Logging;
+namespace ArchiveService.Commons.Logging;
 
 public static class CustomLogger
 {

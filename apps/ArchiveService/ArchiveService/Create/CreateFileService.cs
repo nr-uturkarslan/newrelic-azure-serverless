@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Net;
-using Storer.Dtos;
-using Storer.Services.Create.Models;
+using ArchiveService.Dtos;
+using ArchiveService.Services.Create.Models;
 
-namespace Storer.Services.Create;
+namespace ArchiveService.Services.Create;
 
 public interface ICreateFileService
 {
-    ResponseDto<CreateValueResponseDto> Run(
+    ResponseTemplate<CreateValueResponseDto> Run(
         CreateValueRequestDto requestDto
     );
 }
@@ -18,7 +18,7 @@ public class CreateFileService : ICreateFileService
     {
     }
 
-    public ResponseDto<CreateValueResponseDto> Run(
+    public ResponseTemplate<CreateValueResponseDto> Run(
         CreateValueRequestDto requestDto
     )
     {
@@ -29,7 +29,7 @@ public class CreateFileService : ICreateFileService
             Name = requestDto.Name,
         };
 
-        var response = new ResponseDto<CreateValueResponseDto>
+        var response = new ResponseTemplate<CreateValueResponseDto>
         {
             Message = "Blob is successfully stored.",
             StatusCode = HttpStatusCode.Created,
