@@ -80,20 +80,29 @@ variable "project_blob_container_name_archive" {
   type    = string
 }
 
-# Function App - Proxy Service
-variable "project_service_plan_name_proxy" {
-  type    = string
-}
-
-variable "project_function_app_name_proxy" {
-  type    = string
-}
-
 # App Service - Device Service
 variable "project_service_plan_name_device" {
   type    = string
 }
 
 variable "project_app_service_name_device" {
+  type    = string
+}
+
+# App Service - Archive Service
+variable "project_service_plan_name_archive" {
+  type    = string
+}
+
+variable "project_app_service_name_archive" {
+  type    = string
+}
+
+# Function App - Proxy Service
+variable "project_service_plan_name_proxy" {
+  type    = string
+}
+
+variable "project_function_app_name_proxy" {
   type    = string
 }
