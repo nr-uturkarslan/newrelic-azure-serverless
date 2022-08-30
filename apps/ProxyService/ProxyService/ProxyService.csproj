@@ -9,8 +9,11 @@
     <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
-    <PackageReference Include="NewRelic.Agent" Version="10.0.0" />
-    <PackageReference Include="NewRelic.Agent.Api" Version="10.0.0" />
+    <PackageReference Include="OpenTelemetry" Version="1.4.0-alpha.2" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9.6" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.4.0-alpha.2" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc9.6" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.0.0-rc9.6" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Commons\" />
@@ -30,6 +33,12 @@
     <None Remove="Commons\Constants\" />
     <None Remove="NewRelic.Agent" />
     <None Remove="NewRelic.Agent.Api" />
+    <None Remove="OpenTelemetry.Api" />
+    <None Remove="OpenTelemetry" />
+    <None Remove="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
+    <None Remove="OpenTelemetry.Extensions.Hosting" />
+    <None Remove="OpenTelemetry.Instrumentation.AspNetCore" />
+    <None Remove="OpenTelemetry.Instrumentation.Http" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
