@@ -16,7 +16,7 @@ platform="platform"
 app="device"
 
 ### Set variables
-resourceGroupName="rg${project}${locationShort}${platform}${stageShort}${instance}"
+resourceGroupName="rg${project}${locationShort}${app}${stageShort}${instance}"
 appServiceName="as${project}${locationShort}${app}${stageShort}${instance}"
 
 ###########

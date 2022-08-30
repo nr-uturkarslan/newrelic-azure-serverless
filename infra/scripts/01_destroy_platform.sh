@@ -17,53 +17,57 @@ platform="platform"
 
 proxy="proxy"
 device="device"
+archive="archive"
 
 ### Set variables
 
 # Platform
-projectResourceGroupName="rg${project}${locationShort}${platform}${stageShort}${instance}"
-
-projectCosmosDbAccountName="cdb${project}${locationShort}${platform}${stageShort}${instance}"
-projectCosmosDbNameDevice="device"
-
-projectServiceBusNamespaceName="sb${project}${locationShort}${platform}${stageShort}${instance}"
-projectServiceBusQueueNameArchive="archive"
-
-projectStorageAccountName="st${project}${locationShort}${platform}${stageShort}${instance}"
-projectBlobContainerNameArchive="archive"
-
-# Proxy
-projectServicePlanNameProxy="plan${project}${locationShort}${proxy}${stageShort}${instance}"
-projectFunctionAppNameProxy="func${project}${locationShort}${proxy}${stageShort}${instance}"
+resourceGroupNamePlatform="rg${project}${locationShort}${platform}${stageShort}${instance}"
+cosmosDbAccountNamePlatform="cdb${project}${locationShort}${platform}${stageShort}${instance}"
+serviceBusNamespaceNamePlatform="sb${project}${locationShort}${platform}${stageShort}${instance}"
+storageAccountNamePlatform="st${project}${locationShort}${platform}${stageShort}${instance}"
 
 # Device
-projectServicePlanNameDevice="plan${project}${locationShort}${device}${stageShort}${instance}"
-projectAppServiceNameDevice="as${project}${locationShort}${device}${stageShort}${instance}"
+resourceGroupNameDevice="rg${project}${locationShort}${device}${stageShort}${instance}"
+servicePlanNameDevice="plan${project}${locationShort}${device}${stageShort}${instance}"
+appServiceNameDevice="as${project}${locationShort}${device}${stageShort}${instance}"
+cosmosDbNameDevice="device"
 
 # Archive
+resourceGroupNameArchive="rg${project}${locationShort}${archive}${stageShort}${instance}"
 projectServicePlanNameArchive="plan${project}${locationShort}${archive}${stageShort}${instance}"
 projectAppServiceNameArchive="as${project}${locationShort}${archive}${stageShort}${instance}"
+serviceBusQueueNameArchive="archive"
+blobContainerNameArchive="archive"
+
+# Proxy
+resourceGroupNameProxy="rg${project}${locationShort}${proxy}${stageShort}${instance}"
+servicePlanNameProxy="plan${project}${locationShort}${proxy}${stageShort}${instance}"
+functionAppNameProxy="func${project}${locationShort}${proxy}${stageShort}${instance}"
 
 ### Terraform destroy
 
 terraform -chdir=../terraform/01_platform destroy \
-  -var project=$project \
+    -var project=$project \
   -var location_long=$locationLong \
   -var location_short=$locationShort \
   -var stage_short=$stageShort \
   -var stage_long=$stageLong \
   -var instance=$instance \
-  -var newRelicLicenseKey=$NEWRELIC_LICENSE_KEY \
-  -var project_resource_group_name=$projectResourceGroupName \
-  -var project_cosmos_db_account_name=$projectCosmosDbAccountName \
-  -var project_cosmos_db_name_device=$projectCosmosDbNameDevice \
-  -var project_service_bus_namespace_name=$projectServiceBusNamespaceName \
-  -var project_service_bus_queue_name_archive=$projectServiceBusQueueNameArchive \
-  -var project_storage_account_name=$projectStorageAccountName \
-  -var project_blob_container_name_archive=$projectBlobContainerNameArchive \
-  -var project_service_plan_name_device=$projectServicePlanNameDevice \
-  -var project_app_service_name_device=$projectAppServiceNameDevice \
-  -var project_service_plan_name_archive=$projectServicePlanNameArchive \
-  -var project_app_service_name_archive=$projectAppServiceNameArchive \
-  -var project_service_plan_name_proxy=$projectServicePlanNameProxy \
-  -var project_function_app_name_proxy=$projectFunctionAppNameProxy
+  -var new_relic_license_key=$NEWRELIC_LICENSE_KEY \
+  -var resource_group_name_platform=$resourceGroupNamePlatform \
+  -var cosmos_db_account_name_platform=$cosmosDbAccountNamePlatform \
+  -var service_bus_namespace_name_platform=$serviceBusNamespaceNamePlatform \
+  -var storage_account_name_platform=$storageAccountNamePlatform \
+  -var resource_group_name_device=$resourceGroupNameDevice \
+  -var service_plan_name_device=$servicePlanNameDevice \
+  -var app_service_name_device=$appServiceNameDevice \
+  -var cosmos_db_name_device=$cosmosDbNameDevice \
+  -var resource_group_name_archive=$resourceGroupNameArchive \
+  -var service_plan_name_archive=$projectServicePlanNameArchive \
+  -var app_service_name_archive=$projectAppServiceNameArchive \
+  -var blob_container_name_archive=$blobContainerNameArchive \
+  -var service_bus_queue_name_archive=$serviceBusQueueNameArchive \
+  -var resource_group_name_proxy=$resourceGroupNameProxy \
+  -var service_plan_name_proxy=$servicePlanNameProxy \
+  -var function_app_name_proxy=$functionAppNameProxy

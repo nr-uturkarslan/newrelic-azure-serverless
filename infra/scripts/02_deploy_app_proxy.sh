@@ -16,7 +16,7 @@ platform="platform"
 app="proxy"
 
 ### Set variables
-resourceGroupName="rg${project}${locationShort}${platform}${stageShort}${instance}"
+resourceGroupName="rg${project}${locationShort}${app}${stageShort}${instance}"
 functionAppName="func${project}${locationShort}${app}${stageShort}${instance}"
 
 ###########

@@ -47,67 +47,106 @@ variable "platform" {
 }
 
 # New Relic License Key
-variable "newRelicLicenseKey" {
+variable "new_relic_license_key" {
   type    = string
 }
 
-## Resource Names
+################
+### Platform ###
+################
 
 # Resource Group
-variable "project_resource_group_name" {
+variable "resource_group_name_platform" {
   type    = string
 }
 
-# Cosmos DB
-variable "project_cosmos_db_account_name" {
-  type    = string
-}
-
-variable "project_cosmos_db_name_device" {
+# Cosmos DB Account
+variable "cosmos_db_account_name_platform" {
   type    = string
 }
 
 # Service Bus
-variable "project_service_bus_namespace_name" {
-  type    = string
-}
-
-variable "project_service_bus_queue_name_archive" {
+variable "service_bus_namespace_name_platform" {
   type    = string
 }
 
 # Storage Account
-variable "project_storage_account_name" {
+variable "storage_account_name_platform" {
+  type    = string
+}
+#########
+
+##############
+### Device ###
+##############
+
+# Resource Group
+variable "resource_group_name_device" {
   type    = string
 }
 
-variable "project_blob_container_name_archive" {
+# Service Plan
+variable "service_plan_name_device" {
   type    = string
 }
 
-# App Service - Device Service
-variable "project_service_plan_name_device" {
+# App Service
+variable "app_service_name_device" {
   type    = string
 }
 
-variable "project_app_service_name_device" {
+# Cosmos DB
+variable "cosmos_db_name_device" {
+  type    = string
+}
+#########
+
+###############
+### Archive ###
+###############
+
+# Resource Group
+variable "resource_group_name_archive" {
   type    = string
 }
 
-# App Service - Archive Service
-variable "project_service_plan_name_archive" {
+# Service Plan
+variable "service_plan_name_archive" {
   type    = string
 }
 
-variable "project_app_service_name_archive" {
+# App Service
+variable "app_service_name_archive" {
   type    = string
 }
 
-# Function App - Proxy Service
-variable "project_service_plan_name_proxy" {
+# Blob Container
+variable "blob_container_name_archive" {
   type    = string
 }
 
-variable "project_function_app_name_proxy" {
+# Service Bus Queue
+variable "service_bus_queue_name_archive" {
   type    = string
 }
+#########
+
+#############
+### Proxy ###
+#############
+
+# Resource Group
+variable "resource_group_name_proxy" {
+  type    = string
+}
+
+# Service Plan
+variable "service_plan_name_proxy" {
+  type    = string
+}
+
+# Function App
+variable "function_app_name_proxy" {
+  type    = string
+}
+#########

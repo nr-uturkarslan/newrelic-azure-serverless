@@ -1,10 +1,10 @@
 ### Cosmos DB ###
 
 # Cosmod DB Account
-resource "azurerm_cosmosdb_account" "nr1" {
-  name                = var.project_cosmos_db_account_name
-  resource_group_name = azurerm_resource_group.nr1.name
-  location            = azurerm_resource_group.nr1.location
+resource "azurerm_cosmosdb_account" "platform" {
+  name                = var.cosmos_db_account_name_platform
+  resource_group_name = azurerm_resource_group.platform.name
+  location            = azurerm_resource_group.platform.location
 
   offer_type = "Standard"
   kind       = "GlobalDocumentDB"
@@ -16,25 +16,25 @@ resource "azurerm_cosmosdb_account" "nr1" {
   }
 
   geo_location {
-    location          = azurerm_resource_group.nr1.location
+    location          = azurerm_resource_group.platform.location
     failover_priority = 0
   }
 }
 
 # Cosmos DB - SQL DB
 resource "azurerm_cosmosdb_sql_database" "device" {
-  name                = var.project_cosmos_db_name_device
-  resource_group_name = azurerm_resource_group.nr1.name
+  name                = var.cosmos_db_name_device
+  resource_group_name = azurerm_resource_group.platform.name
 
-  account_name = azurerm_cosmosdb_account.nr1.name
+  account_name = azurerm_cosmosdb_account.platform.name
   throughput   = 400
 }
 
 resource "azurerm_cosmosdb_sql_container" "device" {
   name                = "device"
-  resource_group_name = azurerm_resource_group.nr1.name
+  resource_group_name = azurerm_resource_group.platform.name
 
-  account_name  = azurerm_cosmosdb_account.nr1.name
+  account_name  = azurerm_cosmosdb_account.platform.name
   database_name = azurerm_cosmosdb_sql_database.device.name
 
   partition_key_path    = "/id"
@@ -53,12 +53,12 @@ resource "azurerm_cosmosdb_sql_container" "device" {
 # SQL Role Definition
 resource "azurerm_cosmosdb_sql_role_definition" "contributor" {
   name                = "contributor"
-  resource_group_name = azurerm_resource_group.nr1.name
-  account_name        = azurerm_cosmosdb_account.nr1.name
+  resource_group_name = azurerm_resource_group.platform.name
+  account_name        = azurerm_cosmosdb_account.platform.name
 
   type = "CustomRole"
   assignable_scopes = [
-    "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${azurerm_resource_group.nr1.name}/providers/Microsoft.DocumentDB/databaseAccounts/${azurerm_cosmosdb_account.nr1.name}"
+    "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${azurerm_resource_group.platform.name}/providers/Microsoft.DocumentDB/databaseAccounts/${azurerm_cosmosdb_account.platform.name}"
   ]
 
   permissions {
