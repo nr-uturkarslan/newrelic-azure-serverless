@@ -20,6 +20,12 @@ resource "azurerm_linux_web_app" "device" {
 
   site_config {}
 
+  app_settings {
+    COSMOS_DB_URI            = azurerm_cosmosdb_account.nr1.endpoint
+    COSMOS_DB_NAME           = azurerm_cosmosdb_sql_database.device.name
+    COSMOS_DB_CONTAINER_NAME = azurerm_cosmosdb_sql_container.device.name
+  }
+
   identity {
     type = "SystemAssigned"
   }

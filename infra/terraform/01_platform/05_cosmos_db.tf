@@ -29,3 +29,23 @@ resource "azurerm_cosmosdb_sql_database" "device" {
   account_name = azurerm_cosmosdb_account.nr1.name
   throughput   = 400
 }
+
+resource "azurerm_cosmosdb_sql_container" "device" {
+  name                = "device"
+  resource_group_name = azurerm_resource_group.nr1.name
+
+  account_name  = azurerm_cosmosdb_account.nr1.name
+  database_name = azurerm_cosmosdb_sql_database.device.name
+
+  partition_key_path    = "/id"
+  partition_key_version = 1
+  throughput            = 400
+
+  indexing_policy {
+    indexing_mode = "consistent"
+  }
+
+  unique_key {
+    paths = ["/id"]
+  }
+}
