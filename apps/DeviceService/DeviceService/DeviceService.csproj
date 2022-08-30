@@ -12,6 +12,8 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.30.0" />
     <PackageReference Include="Azure.Identity" Version="1.6.1" />
+    <PackageReference Include="NewRelic.Agent" Version="10.0.0" />
+    <PackageReference Include="NewRelic.Agent.Api" Version="10.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +29,8 @@
     <None Remove="Services\" />
     <None Remove="Services\Create\" />
     <None Remove="Dtos\" />
+    <None Remove="NewRelic.Agent" />
+    <None Remove="NewRelic.Agent.Api" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Azure\" />
