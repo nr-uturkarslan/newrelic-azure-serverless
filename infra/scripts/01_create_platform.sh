@@ -17,6 +17,7 @@ platform="platform"
 
 proxy="proxy"
 device="device"
+archive="archive"
 
 ### Set variables
 
@@ -44,7 +45,11 @@ projectFunctionAppNameProxy="func${project}${locationShort}${proxy}${stageShort}
 projectServicePlanNameDevice="plan${project}${locationShort}${device}${stageShort}${instance}"
 projectAppServiceNameDevice="as${project}${locationShort}${device}${stageShort}${instance}"
 
-### Shared Terraform storage account
+# Archive
+projectServicePlanNameArchive="plan${project}${locationShort}${archive}${stageShort}${instance}"
+projectAppServiceNameArchive="as${project}${locationShort}${archive}${stageShort}${instance}"
+
+# ### Shared Terraform storage account
 
 # Resource group
 echo "Checking shared resource group [${sharedResourceGroupName}]..."
@@ -130,14 +135,16 @@ terraform -chdir=../terraform/01_platform plan \
   -var project_resource_group_name=$projectResourceGroupName \
   -var project_cosmos_db_account_name=$projectCosmosDbAccountName \
   -var project_cosmos_db_name_device=$projectCosmosDbNameDevice \
-  -var project_service_plan_name_proxy=$projectServicePlanNameProxy \
-  -var project_function_app_name_proxy=$projectFunctionAppNameProxy \
-  -var project_service_plan_name_device=$projectServicePlanNameDevice \
-  -var project_app_service_name_device=$projectAppServiceNameDevice \
   -var project_service_bus_namespace_name=$projectServiceBusNamespaceName \
   -var project_service_bus_queue_name_archive=$projectServiceBusQueueNameArchive \
   -var project_storage_account_name=$projectStorageAccountName \
   -var project_blob_container_name_archive=$projectBlobContainerNameArchive \
+  -var project_service_plan_name_device=$projectServicePlanNameDevice \
+  -var project_app_service_name_device=$projectAppServiceNameDevice \
+  -var project_service_plan_name_archive=$projectServicePlanNameArchive \
+  -var project_app_service_name_archive=$projectAppServiceNameArchive \
+  -var project_service_plan_name_proxy=$projectServicePlanNameProxy \
+  -var project_function_app_name_proxy=$projectFunctionAppNameProxy \
   -out "./tfplan"
 
 terraform -chdir=../terraform/01_platform apply tfplan

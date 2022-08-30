@@ -40,7 +40,7 @@ void GetEnvironmentVariables()
     EnvironmentVariables.COSMOS_DB_URI = cosmosDbUri;
 
     var cosmosDbName = Environment.GetEnvironmentVariable("COSMOS_DB_NAME");
-    if (string.IsNullOrEmpty(cosmosDbUri))
+    if (string.IsNullOrEmpty(cosmosDbName))
     {
         Console.WriteLine("[COSMOS_DB_NAME] is not provided");
         Environment.Exit(1);
@@ -48,7 +48,7 @@ void GetEnvironmentVariables()
     EnvironmentVariables.COSMOS_DB_NAME = cosmosDbName;
 
     var cosmosDbContainerName = Environment.GetEnvironmentVariable("COSMOS_DB_CONTAINER_NAME");
-    if (string.IsNullOrEmpty(cosmosDbUri))
+    if (string.IsNullOrEmpty(cosmosDbContainerName))
     {
         Console.WriteLine("[COSMOS_DB_CONTAINER_NAME] is not provided");
         Environment.Exit(1);

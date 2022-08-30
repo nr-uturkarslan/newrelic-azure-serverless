@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DeviceService.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("device")]
 public class DeviceController : ControllerBase
 {
     private const string CREATE_ENDPOINT_NAME = "Create";

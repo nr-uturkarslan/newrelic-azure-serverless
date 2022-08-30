@@ -12,6 +12,7 @@ stageLong="dev"
 stageShort="d"
 instance="001"
 
+platform="platform"
 app="device"
 
 ### Set variables
@@ -33,7 +34,7 @@ cd ../../apps/DeviceService/DeviceService/bin/Release/net6.0/publish
 zip -r publish.zip .
 
 # Deploy binaries
-az functionapp deployment source config-zip \
+az webapp deployment source config-zip \
   --resource-group $resourceGroupName \
   --name $appServiceName \
   --src "publish.zip"

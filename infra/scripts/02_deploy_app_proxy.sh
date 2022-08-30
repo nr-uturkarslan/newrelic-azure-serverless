@@ -12,6 +12,7 @@ stageLong="dev"
 stageShort="d"
 instance="001"
 
+platform="platform"
 app="proxy"
 
 ### Set variables
