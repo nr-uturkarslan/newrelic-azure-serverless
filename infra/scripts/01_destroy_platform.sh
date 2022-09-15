@@ -29,6 +29,7 @@ storageAccountNameShared="st${project}${locationShort}${shared}x000"
 
 # Platform
 resourceGroupNamePlatform="rg${project}${locationShort}${platform}${stageShort}${instance}"
+containerRegistryNamePlatform="acr${project}${locationShort}${platform}${stageShort}${instance}"
 cosmosDbAccountNamePlatform="cdb${project}${locationShort}${platform}${stageShort}${instance}"
 serviceBusNamespaceNamePlatform="sb${project}${locationShort}${platform}${stageShort}${instance}"
 storageAccountNamePlatform="st${project}${locationShort}${platform}${stageShort}${instance}"
@@ -64,6 +65,7 @@ terraform -chdir=../terraform/01_platform destroy \
   -var new_relic_license_key=$NEWRELIC_LICENSE_KEY \
   -var new_relic_otlp_export_endpoint=$newRelicOtlpExportEndpoint \
   -var resource_group_name_platform=$resourceGroupNamePlatform \
+  -var container_registry_name_platform=$containerRegistryNamePlatform \
   -var cosmos_db_account_name_platform=$cosmosDbAccountNamePlatform \
   -var service_bus_namespace_name_platform=$serviceBusNamespaceNamePlatform \
   -var storage_account_name_platform=$storageAccountNamePlatform \

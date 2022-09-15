@@ -40,3 +40,11 @@ resource "azurerm_linux_web_app" "archive" {
     type = "SystemAssigned"
   }
 }
+
+# Role Assignment AcrPull
+resource "azurerm_role_assignment" "acr_pull_for_archive_as" {
+  principal_id                     = azurerm_linux_web_app.archive.identity[0].principal_id
+  role_definition_name             = "AcrPull"
+  scope                            = azurerm_container_registry.platform.id
+  skip_service_principal_aad_check = true
+}

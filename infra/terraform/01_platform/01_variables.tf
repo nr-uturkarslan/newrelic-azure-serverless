@@ -71,6 +71,11 @@ variable "resource_group_name_platform" {
   type = string
 }
 
+# Container Registry
+variable "container_registry_name_platform" {
+  type = string
+}
+
 # Cosmos DB Account
 variable "cosmos_db_account_name_platform" {
   type = string
