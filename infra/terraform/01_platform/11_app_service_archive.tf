@@ -20,6 +20,13 @@ resource "azurerm_linux_web_app" "archive" {
 
   app_settings = {
 
+    # Blob Container
+    BLOB_CONTAINER_URI = "test"
+
+    # Service Bus
+    SERVICE_BUS_FQDN       = "${azurerm_servicebus_namespace.platform.name}.servicebus.windows.net"
+    SERVICE_BUS_QUEUE_NAME = azurerm_servicebus_queue.archive.name
+
     # New Relic
     NEW_RELIC_APP_NAME              = "ArchiveService"
     NEW_RELIC_LICENSE_KEY           = var.new_relic_license_key
@@ -28,11 +35,13 @@ resource "azurerm_linux_web_app" "archive" {
     CORECLR_PROFILER_PATH           = "/home/site/wwwroot/newrelic/libNewRelicProfiler.so"
     CORECLR_NEWRELIC_HOME           = "/home/site/wwwroot/newrelic"
     NEWRELIC_PROFILER_LOG_DIRECTORY = "/home/LogFiles/NewRelic"
+
   }
 
   site_config {
     application_stack {
-      dotnet_version = "6.0"
+      docker_image     = "${var.container_registry_name_platform}.azurecr.io/archive"
+      docker_image_tag = "latest"
     }
   }
 
