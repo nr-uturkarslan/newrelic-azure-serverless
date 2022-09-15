@@ -38,5 +38,21 @@ void GetEnvironmentVariables()
         Environment.Exit(1);
     }
     EnvironmentVariables.BLOB_CONTAINER_URI = blobContainerUri;
+
+    var serviceBusFqdn = Environment.GetEnvironmentVariable("SERVICE_BUS_FQDN");
+    if (string.IsNullOrEmpty(serviceBusFqdn))
+    {
+        Console.WriteLine("[SERVICE_BUS_FQDN] is not provided");
+        Environment.Exit(1);
+    }
+    EnvironmentVariables.SERVICE_BUS_FQDN = serviceBusFqdn;
+
+    var serviceBusQueueName = Environment.GetEnvironmentVariable("SERVICE_BUS_QUEUE_NAME");
+    if (string.IsNullOrEmpty(serviceBusQueueName))
+    {
+        Console.WriteLine("[SERVICE_BUS_QUEUE_NAME] is not provided");
+        Environment.Exit(1);
+    }
+    EnvironmentVariables.SERVICE_BUS_QUEUE_NAME = serviceBusQueueName;
 }
 
