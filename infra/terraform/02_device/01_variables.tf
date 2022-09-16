@@ -101,3 +101,13 @@ variable "cosmos_db_name_device" {
   type = string
 }
 #########
+
+##############
+### Device ###
+##############
+
+# Service Bus Queue
+variable "service_bus_queue_name_archive" {
+  type = string
+}
+#########

@@ -16,12 +16,6 @@ data "azurerm_cosmosdb_account" "platform" {
   resource_group_name = var.resource_group_name_platform
 }
 
-# Cosmos DB - Device
-data "azurerm_cosmosdb_sql_database" "device" {
-  name                = var.cosmos_db_name_device
-  resource_group_name = var.resource_group_name_platform
-}
-
 # Service Bus - Platform
 data "azurerm_servicebus_namespace" "platform" {
   name                = var.service_bus_namespace_name_platform
