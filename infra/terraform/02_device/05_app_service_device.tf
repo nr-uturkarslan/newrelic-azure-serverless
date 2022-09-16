@@ -22,7 +22,7 @@ resource "azurerm_linux_web_app" "device" {
 
     # Cosmos DB
     COSMOS_DB_URI            = data.azurerm_cosmosdb_account.platform.endpoint
-    COSMOS_DB_NAME           = data.azurerm_cosmosdb_account.platform.name
+    COSMOS_DB_NAME           = var.cosmos_db_name_device
     COSMOS_DB_CONTAINER_NAME = var.cosmos_db_name_device
 
     # Service Bus
