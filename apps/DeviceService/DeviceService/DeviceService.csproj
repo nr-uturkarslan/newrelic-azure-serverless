@@ -14,6 +14,7 @@
     <PackageReference Include="Azure.Identity" Version="1.6.1" />
     <PackageReference Include="NewRelic.Agent" Version="10.1.0" />
     <PackageReference Include="NewRelic.Agent.Api" Version="10.1.0" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.10.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +32,8 @@
     <None Remove="Dtos\" />
     <None Remove="NewRelic.Agent" />
     <None Remove="NewRelic.Agent.Api" />
+    <None Remove="Azure.Messaging.ServiceBus" />
+    <None Remove="Azure\ServiceBus\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Azure\" />
@@ -41,5 +44,6 @@
     <Folder Include="Services\" />
     <Folder Include="Services\Create\" />
     <Folder Include="Dtos\" />
+    <Folder Include="Azure\ServiceBus\" />
   </ItemGroup>
 </Project>
