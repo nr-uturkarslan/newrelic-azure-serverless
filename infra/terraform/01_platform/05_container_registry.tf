@@ -6,4 +6,5 @@ resource "azurerm_container_registry" "platform" {
   resource_group_name = azurerm_resource_group.platform.name
   location            = azurerm_resource_group.platform.location
   sku                 = "Standard"
+  admin_enabled       = true
 }
