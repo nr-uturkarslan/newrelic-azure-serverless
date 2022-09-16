@@ -7,7 +7,7 @@ resource "azurerm_service_plan" "archive" {
   resource_group_name = azurerm_resource_group.archive.name
 
   os_type  = "Linux"
-  sku_name = "B1"
+  sku_name = "S1"
 }
 
 # App Service

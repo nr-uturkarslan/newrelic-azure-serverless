@@ -7,7 +7,7 @@ resource "azurerm_service_plan" "device" {
   resource_group_name = azurerm_resource_group.device.name
 
   os_type  = "Linux"
-  sku_name = "B1"
+  sku_name = "S1"
 }
 
 # App Service
