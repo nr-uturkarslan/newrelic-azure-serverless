@@ -25,12 +25,12 @@ appServiceName="as${project}${locationShort}${app}${stageShort}${instance}"
 
 # Publish code
 dotnet publish \
-  ../../apps/DeviceService/DeviceService/DeviceService.csproj \
+  ../../../apps/DeviceService/DeviceService/DeviceService.csproj \
   -c Release
 
 # Zip binaries
 currentDir=$(pwd)
-cd ../../apps/DeviceService/DeviceService/bin/Release/net6.0/publish
+cd ../../../apps/DeviceService/DeviceService/bin/Release/net6.0/publish
 zip -r publish.zip .
 
 # Deploy binaries
