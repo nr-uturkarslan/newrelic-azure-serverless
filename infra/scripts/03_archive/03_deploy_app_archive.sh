@@ -24,16 +24,9 @@ appServiceName="as${project}${locationShort}${app}${stageShort}${instance}"
 ### App ###
 ###########
 
-# Docker tag
-dockerTag="$(date +%s)"
-echo $dockerTag
-
-# ACR build
-az acr build \
-  --platform linux/amd64 \
-  --build-arg newRelicAppName="ArchiveService" \
-  --build-arg newRelicLicenseKey=$NEWRELIC_LICENSE_KEY_BRAVO \
-  --registry $containerRegistryNamePlatform \
-  --image "${app}:${dockerTag}" \
-  "../../../apps/ArchiveService/ArchiveService/."
+# Deploy
+az webapp config container set \
+  --resource-group $resourceGroupName \
+  --name $appServiceName \
+  --docker-custom-image-name "${containerRegistryNamePlatform}.azurecr.io/archive:1663280000"
 ######
