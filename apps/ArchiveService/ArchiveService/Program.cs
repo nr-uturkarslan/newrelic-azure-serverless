@@ -1,4 +1,5 @@
 ﻿using ArchiveService.Commons.Constants;
+using ArchiveService.Services.Create;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 GetEnvironmentVariables();
 
 // Add services to the container.
+builder.Services.AddSingleton<ICreateFileService, CreateFileService>();
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
