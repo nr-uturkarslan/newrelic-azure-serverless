@@ -36,4 +36,10 @@ az acr build \
   --registry $containerRegistryNamePlatform \
   --image "${app}:${dockerTag}" \
   "../../../apps/ArchiveService/ArchiveService/."
+
+# Deploy
+az webapp config container set \
+  --resource-group $resourceGroupName \
+  --name $appServiceName \
+  --docker-custom-image-name "${containerRegistryNamePlatform}.azurecr.io/archive:${dockerTag}"
 ######
