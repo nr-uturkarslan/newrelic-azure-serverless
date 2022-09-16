@@ -9,33 +9,34 @@ namespace ArchiveService.Controllers;
 [Route("[controller]")]
 public class ArchiveController : ControllerBase
 {
-    private const string CREATE_ENDPOINT_NAME = "Create";
+    private const string LIST_ENDPOINT_NAME = "List";
 
     private readonly ILogger<ArchiveController> _logger;
 
-    private readonly ICreateFileService _createFileService;
+    private readonly IListFileService _listFileService;
 
     public ArchiveController(
         ILogger<ArchiveController> logger,
-        ICreateFileService createFileService
+        IListFileService createFileService
     )
     {
         _logger = logger;
-        _createFileService = createFileService;
+        _listFileService = createFileService;
     }
 
-    [HttpPost(Name = CREATE_ENDPOINT_NAME)]
-    [Route("create")]
-    public async Task<IActionResult> Create(
-        [FromBody] CreateValueRequestDto requestDto
+    [HttpGet(Name = LIST_ENDPOINT_NAME)]
+    [Route("list")]
+    public async Task<IActionResult> List(
+        [FromQuery] int limit = 5
     )
     {
         LogCreateEndpointIsTriggered();
 
-        var responseDto = _createFileService.Run(requestDto);
+        var responseDto = _listFileService.Run(limit);
 
         LogCreateEndpointIsFinished();
-        return new CreatedResult($"{responseDto.Data.Id}", responseDto);
+
+        return new OkObjectResult(responseDto);
     }
 
     private void LogCreateEndpointIsTriggered()
@@ -44,9 +45,9 @@ public class ArchiveController : ControllerBase
             new CustomLog
             {
                 ClassName = nameof(ArchiveController),
-                MethodName = nameof(Create),
+                MethodName = nameof(List),
                 LogLevel = LogLevel.Information,
-                Message = $"{CREATE_ENDPOINT_NAME} endpoint is triggered...",
+                Message = $"{LIST_ENDPOINT_NAME} endpoint is triggered...",
             });
     }
 
@@ -56,9 +57,9 @@ public class ArchiveController : ControllerBase
             new CustomLog
             {
                 ClassName = nameof(ArchiveController),
-                MethodName = nameof(Create),
+                MethodName = nameof(List),
                 LogLevel = LogLevel.Information,
-                Message = $"{CREATE_ENDPOINT_NAME} endpoint is finished.",
+                Message = $"{LIST_ENDPOINT_NAME} endpoint is finished.",
             });
     }
 }
