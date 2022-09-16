@@ -65,3 +65,10 @@ resource "azurerm_role_assignment" "acr_pull_for_archive_as" {
   scope                            = data.azurerm_container_registry.platform.id
   skip_service_principal_aad_check = true
 }
+
+# Service Bus - Archive
+resource "azurerm_role_assignment" "data_receiver_for_archive_as_on_service_queue_archive" {
+  scope                = data.azurerm_servicebus_queue.archive.id
+  role_definition_name = "Azure Service Bus Data Receiver"
+  principal_id         = azurerm_linux_web_app.archive.identity[0].principal_id
+}
