@@ -71,21 +71,6 @@ variable "resource_group_name_platform" {
   type = string
 }
 
-# Container Registry
-variable "container_registry_name_platform" {
-  type = string
-}
-
-# Cosmos DB Account
-variable "cosmos_db_account_name_platform" {
-  type = string
-}
-
-# Service Bus
-variable "service_bus_namespace_name_platform" {
-  type = string
-}
-
 # Storage Account
 variable "storage_account_name_platform" {
   type = string
@@ -106,20 +91,11 @@ variable "resource_group_name_device" {
   type = string
 }
 
-# Service Plan
-variable "service_plan_name_device" {
-  type = string
-}
-
 # App Service
 variable "app_service_name_device" {
   type = string
 }
 
-# Cosmos DB
-variable "cosmos_db_name_device" {
-  type = string
-}
 #########
 
 ###############
@@ -131,23 +107,8 @@ variable "resource_group_name_archive" {
   type = string
 }
 
-# Service Plan
-variable "service_plan_name_archive" {
-  type = string
-}
-
 # App Service
 variable "app_service_name_archive" {
-  type = string
-}
-
-# Blob Container
-variable "blob_container_name_archive" {
-  type = string
-}
-
-# Service Bus Queue
-variable "service_bus_queue_name_archive" {
   type = string
 }
 #########
