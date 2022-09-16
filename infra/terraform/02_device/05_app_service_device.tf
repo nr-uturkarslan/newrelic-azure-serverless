@@ -21,9 +21,13 @@ resource "azurerm_linux_web_app" "device" {
   app_settings = {
 
     # Cosmos DB
-    COSMOS_DB_URI            = azurerm_cosmosdb_account.platform.endpoint
-    COSMOS_DB_NAME           = azurerm_cosmosdb_sql_database.device.name
-    COSMOS_DB_CONTAINER_NAME = azurerm_cosmosdb_sql_container.device.name
+    COSMOS_DB_URI            = data.azurerm_cosmosdb_account.platform.endpoint
+    COSMOS_DB_NAME           = data.azurerm_cosmosdb_sql_database.device.name
+    COSMOS_DB_CONTAINER_NAME = data.azurerm_cosmosdb_sql_container.device.name
+
+    # Service Bus
+    SERVICE_BUS_FQDN       = "${data.azurerm_servicebus_namespace.platform.name}.servicebus.windows.net"
+    SERVICE_BUS_QUEUE_NAME = data.azurerm_servicebus_queue.archive.name
 
     # New Relic
     NEW_RELIC_APP_NAME              = "DeviceService"
@@ -46,12 +50,38 @@ resource "azurerm_linux_web_app" "device" {
   }
 }
 
+# SQL Role Definition
+resource "azurerm_cosmosdb_sql_role_definition" "contributor" {
+  name                = "contributor-${azurerm_linux_web_app.device.name}"
+  resource_group_name = data.azurerm_resource_group.platform.name
+  account_name        = data.azurerm_cosmosdb_account.platform.name
+
+  type = "CustomRole"
+  assignable_scopes = [
+    "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${data.azurerm_resource_group.platform.name}/providers/Microsoft.DocumentDB/databaseAccounts/${data.azurerm_cosmosdb_account.platform.name}"
+  ]
+
+  permissions {
+    data_actions = [
+      "Microsoft.DocumentDB/databaseAccounts/readMetadata",
+      "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/items/*"
+    ]
+  }
+}
+
 # SQL Role Assignment - Device
-resource "azurerm_cosmosdb_sql_role_assignment" "contributor_for_device_service" {
-  resource_group_name = azurerm_resource_group.platform.name
-  account_name        = azurerm_cosmosdb_account.platform.name
+resource "azurerm_cosmosdb_sql_role_assignment" "contributor_for_device_as" {
+  resource_group_name = data.azurerm_resource_group.platform.name
+  account_name        = data.azurerm_cosmosdb_account.platform.name
 
   role_definition_id = azurerm_cosmosdb_sql_role_definition.contributor.id
   principal_id       = azurerm_linux_web_app.device.identity[0].principal_id
-  scope              = "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${azurerm_resource_group.platform.name}/providers/Microsoft.DocumentDB/databaseAccounts/${azurerm_cosmosdb_account.platform.name}"
+  scope              = "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${data.azurerm_resource_group.platform.name}/providers/Microsoft.DocumentDB/databaseAccounts/${data.azurerm_cosmosdb_account.platform.name}"
+}
+
+# Service Bus - Archive
+resource "azurerm_role_assignment" "data_sender_for_device_as_on_service_queue_archive" {
+  scope                = data.azurerm_servicebus_queue.archive.id
+  role_definition_name = "Azure Service Bus Data Sender"
+  principal_id         = azurerm_linux_web_app.device.identity[0].principal_id
 }

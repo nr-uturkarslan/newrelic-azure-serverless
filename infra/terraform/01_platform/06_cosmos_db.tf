@@ -49,22 +49,3 @@ resource "azurerm_cosmosdb_sql_container" "device" {
   #   paths = ["/id"]
   # }
 }
-
-# SQL Role Definition
-resource "azurerm_cosmosdb_sql_role_definition" "contributor" {
-  name                = "contributor"
-  resource_group_name = azurerm_resource_group.platform.name
-  account_name        = azurerm_cosmosdb_account.platform.name
-
-  type = "CustomRole"
-  assignable_scopes = [
-    "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${azurerm_resource_group.platform.name}/providers/Microsoft.DocumentDB/databaseAccounts/${azurerm_cosmosdb_account.platform.name}"
-  ]
-
-  permissions {
-    data_actions = [
-      "Microsoft.DocumentDB/databaseAccounts/readMetadata",
-      "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/items/*"
-    ]
-  }
-}

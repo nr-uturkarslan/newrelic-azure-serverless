@@ -1,5 +1,10 @@
 ### Data ###
 
+# Client
+data "azurerm_client_config" "current" {
+
+}
+
 # Resource Group - Platform
 data "azurerm_resource_group" "platform" {
   name = var.resource_group_name_platform
