@@ -32,7 +32,7 @@ echo $dockerTag
 az acr build \
   --platform linux/amd64 \
   --build-arg newRelicAppName="ArchiveService" \
-  --build-arg newRelicLicenseKey=$NEWRELIC_LICENSE_KEY_BRAVO \
+  --build-arg newRelicLicenseKey=$NEWRELIC_LICENSE_KEY \
   --registry $containerRegistryNamePlatform \
   --image "${app}:${dockerTag}" \
   "../../../apps/ArchiveService/ArchiveService/."
@@ -41,5 +41,5 @@ az acr build \
 az webapp config container set \
   --resource-group $resourceGroupName \
   --name $appServiceName \
-  --docker-custom-image-name "${containerRegistryNamePlatform}.azurecr.io/archive:${dockerTag}"
+  --docker-custom-image-name "${containerRegistryNamePlatform}.azurecr.io/${app}:${dockerTag}"
 ######

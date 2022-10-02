@@ -55,26 +55,6 @@ public class Startup : FunctionsStartup
             b.AddSource(EnvironmentVariables.NEW_RELIC_APP_NAME);
         });
 
-        builder.Services.AddOpenTelemetryTracing(b =>
-        {
-            // decorate our service name so we can find it when we search traces
-            b.SetResourceBuilder(resourceBuilder);
-
-            // receive traces from built-in sources
-            b.AddHttpClientInstrumentation();
-            b.AddAspNetCoreInstrumentation();
-
-            // use the OTLP exporter
-            b.AddOtlpExporter(options =>
-            {
-                options.Endpoint = new Uri($"{EnvironmentVariables.NEW_RELIC_OTEL_EXPORTER_OTLP_ENDPOINT}");
-                options.Headers = $"api-key={EnvironmentVariables.NEW_RELIC_LICENSE_KEY}";
-            });
-
-            // receive traces from our own custom sources
-            b.AddSource(EnvironmentVariables.NEW_RELIC_APP_NAME);
-        });
-
         builder.Services.AddSingleton<ICreateDeviceService, CreateDeviceService>();
         
     }
