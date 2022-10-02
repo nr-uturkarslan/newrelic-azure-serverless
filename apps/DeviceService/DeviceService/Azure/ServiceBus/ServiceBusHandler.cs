@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Net;
 using System.Text;
 using Azure.Identity;
 using Azure.Messaging.ServiceBus;
 using DeviceService.Commons.Constants;
 using DeviceService.Commons.Logging;
 using DeviceService.Services.Create.Dtos;
+using Microsoft.Azure.Cosmos;
+using NewRelic.Api.Agent;
 using Newtonsoft.Json;
 
 namespace DeviceService.Azure.ServiceBus;
@@ -61,6 +64,9 @@ public class ServiceBusHandler : IServiceBusHandler
 
             var message = new ServiceBusMessage(
                 JsonConvert.SerializeObject(requestDto));
+
+            AddDistributedTracingHeadersIfExist(message);
+
             await _sender.SendMessageAsync(message);
 
             LogMessagePublished();
@@ -68,6 +74,27 @@ public class ServiceBusHandler : IServiceBusHandler
         catch (Exception e)
         {
             LogMessageNotPublished(e);
+        }
+    }
+
+    private void AddDistributedTracingHeadersIfExist(
+        ServiceBusMessage message
+    )
+    {
+        var distributedTracingHeaders = new Dictionary<String, String>();
+        var transaction = NewRelic.Api.Agent.NewRelic.GetAgent().CurrentTransaction;
+
+        var setter = new Action<Dictionary<String, String>, string, string>(
+            (carrier, key, value) => {
+                if (key.Equals("traceparent") || key.Equals("tracestate"))
+                carrier.Add(key, value);
+            });
+        transaction.InsertDistributedTraceHeaders(distributedTracingHeaders, setter);
+
+        foreach (var header in distributedTracingHeaders)
+        {
+            LogAddingDistributedTraceHeader(header.Key, header.Value);
+            message.ApplicationProperties.Add(header.Key , header.Value);
         }
     }
 
@@ -120,6 +147,21 @@ public class ServiceBusHandler : IServiceBusHandler
                 MethodName = nameof(Publish),
                 LogLevel = LogLevel.Information,
                 Message = "Publishing message...",
+            });
+    }
+
+    private void LogAddingDistributedTraceHeader(
+        string headerKey,
+        string headerValue
+    )
+    {
+        CustomLogger.Run(_logger,
+            new CustomLog
+            {
+                ClassName = nameof(ServiceBusHandler),
+                MethodName = nameof(AddDistributedTracingHeadersIfExist),
+                LogLevel = LogLevel.Information,
+                Message = $"Adding distributed trace headers [{headerKey} -> {headerValue}]",
             });
     }
 
