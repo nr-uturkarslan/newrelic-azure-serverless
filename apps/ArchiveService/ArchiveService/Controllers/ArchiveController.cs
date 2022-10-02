@@ -26,7 +26,7 @@ public class ArchiveController : ControllerBase
 
     [HttpGet(Name = LIST_ENDPOINT_NAME)]
     [Route("list")]
-    public async Task<IActionResult> List(
+    public IActionResult List(
         [FromQuery] int limit = 5
     )
     {

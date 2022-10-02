@@ -20,6 +20,10 @@ resource "azurerm_linux_web_app" "archive" {
 
   app_settings = {
 
+    # Container
+    # WEBSITES_CONTAINER_START_TIME_LIMIT = "1800"
+    # WEBSITES_PORT = "80"
+
     # Container Registry
     DOCKER_REGISTRY_SERVER_URL = data.azurerm_container_registry.platform.login_server
     DOCKER_REGISTRY_SERVER_USERNAME = data.azurerm_container_registry.platform.admin_username
