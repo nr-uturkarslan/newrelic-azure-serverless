@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Reflection.Metadata;
+using ArchiveService.Azure.BlobContainer;
 using ArchiveService.Commons.Constants;
+using ArchiveService.Commons.Exceptions;
 using ArchiveService.Commons.Logging;
 using ArchiveService.Entities;
 using Azure.Identity;
@@ -13,16 +16,21 @@ public class ServiceBusHandler : IHostedService
 {
     private readonly ILogger _logger;
 
+    private readonly IBlobHandler _blobHandler;
+
     private ServiceBusClient _client;
     private ServiceBusProcessor _processor;
 
     public ServiceBusHandler(
-        ILogger<ServiceBusHandler> logger
+        ILogger<ServiceBusHandler> logger,
+        IBlobHandler blobHandler
     )
     {
         // Set logger.
         _logger = logger;
 
+        // Set blob handler.
+        _blobHandler = blobHandler;
 
         // Create Service Bus processor.
         CreateServiceBusProcessor();
@@ -95,6 +103,9 @@ public class ServiceBusHandler : IHostedService
             // Parse the message.
             var deviceMessage = ParseMessage(args.Message);
 
+            // Store the message in blob container.
+            await StoreMessageInBlobContainer(deviceMessage);
+
             // Acknowledge the message.
             await args.CompleteMessageAsync(args.Message);
         }
@@ -149,6 +160,11 @@ public class ServiceBusHandler : IHostedService
 
         return deviceMessage;
     }
+
+    private async Task StoreMessageInBlobContainer(
+        Device deviceMessage
+    )
+        => await _blobHandler.Upload(deviceMessage);
 
     private Task ErrorHandler(
         ProcessErrorEventArgs args

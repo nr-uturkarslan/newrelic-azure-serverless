@@ -1,4 +1,5 @@
-﻿using ArchiveService.Azure.ServiceBus;
+﻿using ArchiveService.Azure.BlobContainer;
+using ArchiveService.Azure.ServiceBus;
 using ArchiveService.Commons.Constants;
 using ArchiveService.Services.Create;
 
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 GetEnvironmentVariables();
 
 // Add services to the container.
+builder.Services.AddSingleton<IBlobHandler, BlobHandler>();
 builder.Services.AddHostedService<ServiceBusHandler>();
 builder.Services.AddSingleton<IListFileService, ListFileService>();
 builder.Services.AddControllers();
@@ -35,13 +37,21 @@ void GetEnvironmentVariables()
 {
     Console.WriteLine("Getting environment variables...");
 
-    var blobContainerUri = Environment.GetEnvironmentVariable("BLOB_CONTAINER_URI");
-    if (string.IsNullOrEmpty(blobContainerUri))
+    var storageAccountName = Environment.GetEnvironmentVariable("STORAGE_ACCOUNT_NAME");
+    if (string.IsNullOrEmpty(storageAccountName))
     {
-        Console.WriteLine("[BLOB_CONTAINER_URI] is not provided");
+        Console.WriteLine("[STORAGE_ACCOUNT_NAME] is not provided");
         Environment.Exit(1);
     }
-    EnvironmentVariables.BLOB_CONTAINER_URI = blobContainerUri;
+    EnvironmentVariables.STORAGE_ACCOUNT_NAME = storageAccountName;
+
+    var blobContainerName = Environment.GetEnvironmentVariable("BLOB_CONTAINER_NAME");
+    if (string.IsNullOrEmpty(blobContainerName))
+    {
+        Console.WriteLine("[BLOB_CONTAINER_NAME] is not provided");
+        Environment.Exit(1);
+    }
+    EnvironmentVariables.BLOB_CONTAINER_NAME = blobContainerName;
 
     var serviceBusFqdn = Environment.GetEnvironmentVariable("SERVICE_BUS_FQDN");
     if (string.IsNullOrEmpty(serviceBusFqdn))

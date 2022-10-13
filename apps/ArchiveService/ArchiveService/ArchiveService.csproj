@@ -25,10 +25,14 @@
     <None Remove="OpenTelemetry" />
     <None Remove="Entities\" />
     <None Remove="NewRelic.Agent.Api" />
+    <None Remove="Azure\BlobContainer\" />
+    <None Remove="Commons\Exceptions\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Azure\" />
     <Folder Include="Azure\ServiceBus\" />
     <Folder Include="Entities\" />
+    <Folder Include="Azure\BlobContainer\" />
+    <Folder Include="Commons\Exceptions\" />
   </ItemGroup>
 </Project>
