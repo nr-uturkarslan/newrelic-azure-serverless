@@ -12,6 +12,7 @@
     <PackageReference Include="Azure.Identity" Version="1.6.1" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.13.1" />
     <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.10.0" />
+    <PackageReference Include="NewRelic.Agent.Api" Version="10.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,10 +24,15 @@
     <None Remove="Azure\ServiceBus\" />
     <None Remove="OpenTelemetry" />
     <None Remove="Entities\" />
+    <None Remove="NewRelic.Agent.Api" />
+    <None Remove="Azure\BlobContainer\" />
+    <None Remove="Commons\Exceptions\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Azure\" />
     <Folder Include="Azure\ServiceBus\" />
     <Folder Include="Entities\" />
+    <Folder Include="Azure\BlobContainer\" />
+    <Folder Include="Commons\Exceptions\" />
   </ItemGroup>
 </Project>

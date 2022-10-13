@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using DeviceService.Azure.CosmosDb;
+using DeviceService.Azure.ServiceBus;
 using DeviceService.Commons.Logging;
 using DeviceService.Controllers;
 using DeviceService.Dtos;
@@ -23,13 +24,17 @@ public class CreateDeviceService : ICreateDeviceService
 
     private readonly ICosmosDbHandler _cosmosDbHandler;
 
+    private readonly IServiceBusHandler _serviceBusHandler;
+
     public CreateDeviceService(
         ILogger<ICreateDeviceService> logger,
-        ICosmosDbHandler cosmosDbHandler
+        ICosmosDbHandler cosmosDbHandler,
+        IServiceBusHandler serviceBusHandler
     )
     {
         _logger = logger;
         _cosmosDbHandler = cosmosDbHandler;
+        _serviceBusHandler = serviceBusHandler;
     }
 
     public async Task<ResponseTemplate<CreateDeviceResponseDto>> Run(
@@ -40,6 +45,7 @@ public class CreateDeviceService : ICreateDeviceService
         {
             LogCreatingDevice();
 
+            // Create device
             var device = new Device
             {
                 Id = Guid.NewGuid().ToString(),
@@ -48,7 +54,11 @@ public class CreateDeviceService : ICreateDeviceService
                 isValid = false,
             };
 
+            // Store device in Cosmos DB
             await _cosmosDbHandler.CreateItem(device);
+
+            // Publish device info to Service Bus
+            await _serviceBusHandler.Publish(requestDto);
 
             var responseDto = new CreateDeviceResponseDto
             {

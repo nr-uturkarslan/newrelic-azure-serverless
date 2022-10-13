@@ -1,4 +1,5 @@
 ﻿using DeviceService.Azure.CosmosDb;
+using DeviceService.Azure.ServiceBus;
 using DeviceService.Commons.Constants;
 using DeviceService.Services.Create;
 
@@ -9,6 +10,7 @@ GetEnvironmentVariables();
 
 // Add services to the container.
 builder.Services.AddSingleton<ICosmosDbHandler, CosmosDbHandler>();
+builder.Services.AddSingleton<IServiceBusHandler, ServiceBusHandler>();
 builder.Services.AddSingleton<ICreateDeviceService, CreateDeviceService>();
 
 builder.Services.AddControllers();

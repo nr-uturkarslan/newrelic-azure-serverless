@@ -27,9 +27,6 @@ RUN apt-get update && apt-get install -y wget ca-certificates gnupg \
 ARG newRelicAppName
 ARG newRelicLicenseKey
 
-RUN echo $newRelicAppName
-RUN echo $newRelicLicenseKey
-
 ENV NEW_RELIC_APP_NAME=$newRelicAppName
 ENV NEW_RELIC_LICENSE_KEY=$newRelicLicenseKey
 

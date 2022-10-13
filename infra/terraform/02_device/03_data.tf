@@ -1,5 +1,10 @@
 ### Data ###
 
+# Client
+data "azurerm_client_config" "current" {
+
+}
+
 # Resource Group - Platform
 data "azurerm_resource_group" "platform" {
   name = var.resource_group_name_platform
@@ -8,12 +13,6 @@ data "azurerm_resource_group" "platform" {
 # Cosmos DB Account - Platform
 data "azurerm_cosmosdb_account" "platform" {
   name                = var.cosmos_db_account_name_platform
-  resource_group_name = var.resource_group_name_platform
-}
-
-# Cosmos DB - Device
-data "azurerm_cosmosdb_sql_database" "device" {
-  name                = var.cosmos_db_name_device
   resource_group_name = var.resource_group_name_platform
 }
 

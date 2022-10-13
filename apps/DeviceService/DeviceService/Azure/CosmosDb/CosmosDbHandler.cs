@@ -52,7 +52,7 @@ public class CosmosDbHandler : ICosmosDbHandler
     {
         await _container.CreateItemAsync<Device>(
             device,
-            new PartitionKey(device.Id.ToString())
+            new PartitionKey(device.Id)
         );
     }
 
